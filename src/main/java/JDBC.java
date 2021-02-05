@@ -15,8 +15,8 @@ public class JDBC {
 
     public static void showUsersToConsole() {
         String sql = "SELECT users.ID,Lastname,Firstname,Patronomyc,Age,sexes.NAMERU as 'pol'," +
-                "Living_Address,phone_number " +
-                "FROM users INNER JOIN sexes on users.sexid = sexes.id";
+                        "Living_Address,phone_number " +
+                        "FROM users INNER JOIN sexes on users.sexid = sexes.id";
 
         try (Connection con = DriverManager.getConnection(DATABASE_URL, User, Password);
              Statement st = con.createStatement();
