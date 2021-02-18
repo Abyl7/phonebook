@@ -1,4 +1,5 @@
 public class User {
+    private int id;
     private String lastname;
     private String firstname;
     private String patronymic;
@@ -7,10 +8,10 @@ public class User {
     private String livingAddress;
     private long phoneNumber;
 
-    public User() {
-    }
+    public User() {}
 
-    public User(String lastname, String firstname, String patronymic, int age, int sexid, String livingAddress, long phoneNumber) {
+    public User(int id,String lastname, String firstname, String patronymic, int age, int sexid, String livingAddress, long phoneNumber) {
+        this.id = id;
         this.lastname = lastname;
         this.firstname = firstname;
         this.patronymic = patronymic;
@@ -19,6 +20,10 @@ public class User {
         this.livingAddress = livingAddress;
         this.phoneNumber = phoneNumber;
     }
+
+    public int getId(){ return id; }
+
+    public void setId(int id){this.id = id; }
 
     public String getLastname() {
         return lastname;

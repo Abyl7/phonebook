@@ -87,23 +87,41 @@ public class Phonebook {
         }
     }
 
+    public static void updateUser(User user){
+        String sql = "UPDATE users SET Lastname = ?, Firstname = ?, Patronomyc = ?, Age = ?, pol = ?, Living_address = ?," +
+                "phone_number = ? WHERE id = ?";
+        try (Connection con = DriverManager.getConnection(DATABASE_URL, User, Password);
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, user.getLastname());
+            ps.setString(2, user.getFirstname());
+            ps.setString(3, user.getPatronymic());
+            ps.setInt(4, user.getAge());
+            ps.setInt(5, user.getSexid());
+            ps.setString(6, user.getLivingAddress());
+            ps.setLong(7, user.getPhoneNumber());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void displayMenu() {
 
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("Здравствуйте! Какое действие вы выберите? (1, 2, 3)\n");
+        System.out.println("Здравствуйте! Какое действие вы выберите?\n");
         System.out.println("1.Добавить");
         System.out.println("2.Удалить");
         System.out.println("3.Найти");
         System.out.println("4.Посмотреть ");
 
 
-        int choice = sc.nextInt();
+        String choice = sc.next();
         sc.nextLine();
 
         switch (choice) {
-            case 1:
+            case "/add":
                 System.out.println("\n Как зовут пользователя, которого вы хотите добавить? ");
                 System.out.println("\n Фамилия: ");
 
@@ -131,22 +149,48 @@ public class Phonebook {
                 addUser(user);
                 break;
 
-            case 2:
+            case "/delete":
                 System.out.println("\n Укажите ID пользователя, которого хотите удалить: ");
                 delUser(sc.nextInt());
                 break;
 
-            case 3:
+            case "/find":
                 System.out.println("\n Укажите ID пользователя, которого хотите найти: ");
                 findUser(sc.nextInt());
                 break;
 
-            case 4:
+            case "/show":
                 System.out.println("\n Все добавленные контакты: ");
                 JDBC.showUsersToConsole();
                 System.out.println();
                 displayMenu();
                 break;
+
+            case "/update":
+                User u = new User();
+                u.setLastname(sc.next());
+
+                System.out.println("\n Имя: ");
+                u.setFirstname(sc.next());
+
+                System.out.println("\n Отчество: ");
+                u.setPatronymic(sc.next());
+
+                System.out.println("\n Возраст: ");
+                u.setAge(sc.nextInt());
+
+                System.out.println("\n Укажите пол(Мужчина - 1, Женщина - 2)");
+                u.setSexid(sc.nextInt());
+
+                System.out.println("\n Адресс Проживания: ");
+                u.setLivingAddress(sc.next());
+
+                System.out.println("\n Номер  полььзователя, которого хотите сохранить?");
+                u.setPhoneNumber(sc.nextLong());
+
+                updateUser(u);
+                break;
+
 
             default:
                 break;
